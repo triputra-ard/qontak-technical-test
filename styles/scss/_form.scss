@@ -1,0 +1,42 @@
+.form-wrapper {
+  background-color: var(--pure-white);
+  padding: 0.5rem 2rem;
+  border-radius: 5rem;
+  position: relative;
+  box-shadow: var(--elevation-1);
+  .form-label {
+    font-size: 0.67rem;
+    color: var(--pure-black);
+    font-weight: $regular-font;
+    margin-bottom: 0;
+  }
+  .form-control {
+    border: unset !important;
+    box-shadow: none !important;
+    padding: 0;
+    padding-bottom: 0.5rem;
+    font-size: 1rem !important;
+    font-weight: $bold-font;
+    &::focus {
+      padding: 1rem;
+    }
+  }
+  .icon-group {
+    padding: 0.2rem;
+    border-radius: 1rem;
+    border: 1px solid var(--gray-20);
+    position: absolute;
+    right: 2rem;
+    top: 1.5rem;
+  }
+
+  &.input {
+    .form-control {
+      border-radius: 0;
+      border-bottom: 1px solid var(--gray-20) !important;
+    }
+    .icon-group {
+      border: unset !important;
+    }
+  }
+}

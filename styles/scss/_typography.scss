@@ -1,0 +1,58 @@
+// h1 {
+//   font-size: $heading-1 !important;
+// }
+// h2 {
+//   font-size: $heading-2 !important;
+// }
+// h3 {
+//   font-size: $heading-3 !important;
+// }
+// h4 {
+//   font-size: $heading-4 !important;
+// }
+// h5 {
+//   font-size: $heading-5 !important;
+// }
+// h6 {
+//   font-size: $heading-6 !important; /* default size for small text */
+// }
+// :where(h1, h2, h3, h4, h5, h6, label, span) {
+//   color: var(--primary-d) !important;
+// }
+// p {
+//   &:not(.v-toast__text) {
+//     color: var(--primary-d);
+//   }
+// }
+.fw-jakarta-extra-light {
+  font-weight: $extra-light-font !important;
+}
+.fw-jakarta-light {
+  font-weight: $light-font !important;
+}
+.fw-jakarta-regular {
+  font-weight: $regular-font !important;
+}
+.fw-jakarta-semibold {
+  font-weight: $semibold-font !important;
+}
+.fw-jakarta-bold {
+  font-weight: $bold-font !important;
+}
+.fw-jakarta-extra-bold {
+  font-weight: $extra-bold-font !important ;
+}
+.no-underline {
+  text-decoration: none;
+  color: var(--primary-d) !important;
+}
+br {
+  &.mobile-only {
+    display: none;
+  }
+}
+@media only screen and (max-width: 1024px) {
+  br.mobile-only {
+    display: block;
+  }
+}

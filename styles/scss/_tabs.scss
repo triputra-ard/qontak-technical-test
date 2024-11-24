@@ -1,0 +1,30 @@
+.custom-tab {
+  &.nav-pills {
+    padding: 0.5rem;
+    background-color: var(--gray-10);
+    border-radius: $radius-1;
+    .nav-link {
+      font-size: 1rem !important;
+      &:not(.active) {
+        color: var(--gray-50);
+        transition: all 0.3s ease-in-out;
+      }
+      &.active {
+        color: var(--pure-black) !important;
+        background-color: var(--gray-5) !important;
+        transition: all 0.3s ease-in-out;
+        border-radius: $radius-2;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .custom-tab {
+    &.nav-pills {
+      .nav-link {
+        font-size: 0.76rem !important;
+      }
+    }
+  }
+}

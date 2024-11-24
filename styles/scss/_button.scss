@@ -1,0 +1,25 @@
+.btn {
+  &.btn-outline-evermos {
+    border-color: var(--evermos-green-dark);
+    color: var(--evermos-green-dark);
+    &:hover {
+      background-color: var(--evermos-green-dark);
+      color: var(--evermos-green);
+    }
+    &.no-hover {
+      background-color: transparent !important;
+      border-color: var(--evermos-green-dark) !important;
+      color: var(--evermos-green-dark) !important;
+    }
+  }
+  &.btn-evermos {
+    border-color: var(--evermos-green-dark);
+    background-color: var(--evermos-green-dark);
+    color: var(--evermos-green);
+    &:hover {
+      background-color: var(--evermos-green);
+      border-color: var(--evermos-green);
+      color: var(--evermos-green-dark);
+    }
+  }
+}
