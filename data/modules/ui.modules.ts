@@ -1,6 +1,9 @@
 const state = () => ({
   data: "Hello world",
   loadingAuthentication: false,
+  menuBar: {
+    show: false,
+  },
 });
 
 const getters = {};

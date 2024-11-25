@@ -1,8 +1,6 @@
 export default function () {
   const { $socket } = useNuxtApp();
   const messageStore = messageData();
-  const activeChats = useState("activeChats", () => []);
-  const currentChat = useState("currentChat", () => null);
   const { user, isAdmin } = useAuth();
   const uploading = ref(false);
 
@@ -14,40 +12,45 @@ export default function () {
   const updateActiveChats = (message) => {
     if (message.userId === "system") return;
 
-    const existingChat = activeChats.value.find(
-      (chat) => chat.userId === message.userId
-    );
-
-    if (existingChat) {
-      existingChat.lastMessage = message.content;
-      existingChat.timestamp = message.timestamp;
-      existingChat.unread =
-        user.id !== message.userId &&
-        (!currentChat.value || currentChat.value.userId !== message.userId);
-    } else if (message.userId !== user.id) {
-      activeChats.value.push({
+    if (
+      !messageStore.activeChats.find((chat) => chat.userId === message.userId)
+    ) {
+      messageStore.activeChats.push({
         userId: message.userId,
         username: message.username,
         lastMessage: message.content,
         timestamp: message.timestamp,
-        unread: true,
+        unread: user.value?.id !== message.userId,
       });
+    } else {
+      // Update existing chat
+      const chatIndex = messageStore.activeChats.findIndex(
+        (chat) => chat.userId === message.userId
+      );
+      if (chatIndex !== -1) {
+        messageStore.activeChats[chatIndex] = {
+          ...messageStore.activeChats[chatIndex],
+          lastMessage: message.content,
+          timestamp: message.timestamp,
+          unread: user.value?.id !== message.userId,
+        };
+      }
     }
   };
 
   const createMessage = (
-    content: object,
+    content: string,
     userId = user.id,
     username = user.username
   ) => {
     return {
       id: Date.now(),
-      content,
+      content: content,
       userId,
       username,
       timestamp: new Date().toISOString(),
       type: isAdmin.value ? "admin" : "user",
-    };
+    } as InfMessage;
   };
 
   const sendMessage = async (content, attachments = []) => {
@@ -69,18 +72,14 @@ export default function () {
       const systemMessage = createMessage(
         response || "Connecting you with an admin. Please wait...",
         "system",
-        "System"
+        "System Assistant"
       );
+      messageStore.underChatWithAdmin = true;
       $socket.emit("message", systemMessage);
-    } else {
-      // // // Send user message
-      if (currentChat.value) {
-        messageCreate.toUserId = currentChat.value.userId;
-      }
-
+    } else if (user.role === "user" && !messageStore.underChatWithAdmin) {
       $socket.emit("message", messageCreate);
       // // If there's an auto-reply and we're not in admin chat
-      if (response && (!currentChat.value || !isAdmin.value)) {
+      if (response && (!messageStore.currentChat || !isAdmin)) {
         setTimeout(() => {
           const autoReplyMessage = createMessage(
             response,
@@ -90,16 +89,25 @@ export default function () {
           $socket.emit("message", autoReplyMessage);
         }, 1000);
       }
+    } else if (user.role === "admin") {
+      // // // Send user message
+      if (messageStore.currentChat) {
+        messageCreate.toUserId = messageStore.currentChat.userId;
+      }
+
+      $socket.emit("message", messageCreate);
+    } else if (user.role === "user" && messageStore.underChatWithAdmin) {
+      $socket.emit("message", messageCreate);
     }
   };
 
   const setCurrentChat = (chat) => {
-    currentChat.value = chat;
-    const chatIndex = activeChats.value.findIndex(
-      (c) => c.userId === chat.userId
+    messageStore.currentChat = chat;
+    const chatIndex = messageStore.activeChats.findIndex(
+      (item) => item.userId === chat.userId
     );
     if (chatIndex !== -1) {
-      activeChats.value[chatIndex].unread = false;
+      messageStore.activeChats[chatIndex].unread = false;
     }
   };
 
@@ -145,8 +153,6 @@ export default function () {
   };
 
   return {
-    activeChats,
-    currentChat,
     sendMessage,
     setCurrentChat,
     uploadFile,

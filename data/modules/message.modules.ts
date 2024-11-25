@@ -1,17 +1,23 @@
 const state = () => ({
   messageList: [],
+  activeChats: [],
+  currentChat: null,
+  underChatWithAdmin: false,
 });
 
 const getters = {
   getMessages(state) {
     return state.messageList;
   },
+  getActiveChats(state) {
+    return state.activeChats;
+  },
 };
 
 const actions = {};
 
 const persist = {
-  pick: ["messageList"],
+  pick: ["messageList", "activeChats", "currentChat"],
   storage: piniaPluginPersistedstate.localStorage(),
 };
 

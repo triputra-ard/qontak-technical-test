@@ -22,7 +22,11 @@ export default function () {
         uiStore.loadingAuthentication = false;
       }, 1500);
       $socket.connect();
-      navigateTo("/");
+      if (request.data.role === "admin") {
+        navigateTo("/admin/");
+      } else {
+        navigateTo("/");
+      }
     } catch (error: any) {
       console.log("error:", error);
       $toast.error(error, {
@@ -38,6 +42,9 @@ export default function () {
     authStore.isAuthenticated = false;
     authStore.user = {};
     messageStore.messageList = [];
+    messageStore.activeChats = [];
+    messageStore.currentChat = null;
+    messageStore.underChatWithAdmin = false;
 
     $socket.off("message");
     $socket.off("request-admin");

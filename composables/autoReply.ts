@@ -51,7 +51,7 @@ export const AUTO_REPLIES = {
       "speak to admin",
       "hubungkan ke admin",
       "bicara dengan admin",
-      "ke admin",
+      "admin",
     ],
     responses: [
       "Baik, saya akan menghubungkan Anda dengan admin kami. Mohon tunggu sebentar...",
