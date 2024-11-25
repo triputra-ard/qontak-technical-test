@@ -10,6 +10,7 @@ export default defineComponent({
     });
     definePageMeta({
       layout: "default",
+      middleware: "auth",
     });
   },
 });
