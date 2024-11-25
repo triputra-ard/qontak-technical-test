@@ -1,6 +1,6 @@
 <template>
   <v-container class="ps-0 pe-0">
-    <v-card elevation="3">
+    <v-card elevation="3" height="30rem">
       <v-card-title>
         <div class="d-flex flex-row justify-space-between">
           <span>Ruang chat : Admin</span>

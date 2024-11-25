@@ -1,9 +1,14 @@
 <template>
   <v-container>
-    <v-card elevation="3">
+    <v-card elevation="3" height="30rem">
       <v-card-title>
         <div class="d-flex flex-row justify-space-between">
-          <span>Ruang chat</span>
+          <span
+            >Ruang chat
+            <template v-if="messageStore.underChatWithAdmin">
+              <v-chip color="green-darken-3">Admin online</v-chip>
+            </template>
+          </span>
           <span class="fw-jakarta-bold"
             >Halo, {{ authStore.getUser.username }}</span
           >
