@@ -1,5 +1,6 @@
 const state = () => ({
   data: "Hello world",
+  loadingAuthentication: false,
 });
 
 const getters = {};
