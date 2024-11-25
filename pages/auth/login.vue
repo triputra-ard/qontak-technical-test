@@ -42,6 +42,9 @@
 <script lang="ts" setup>
 import { useToast } from "vue-toast-notification";
 
+useHead({
+  title: "Qontak Technical Test - Login",
+});
 definePageMeta({
   layout: "blank",
 });
