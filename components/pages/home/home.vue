@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-card elevation="3" height="30rem">
+    <v-card elevation="3" :height="$device.isMobile ? '50rem' : '30rem'">
       <v-card-title>
         <div class="d-flex flex-row justify-space-between">
           <span
@@ -64,6 +64,7 @@
 </template>
 
 <script lang="ts" setup>
+const { isMobile } = useDevice();
 const { sendMessage, uploadFile, uploading } = useMessage();
 
 const messageStore = messageData();
@@ -111,12 +112,3 @@ async function sendChat() {
   }
 }
 </script>
-
-<style lang="scss">
-.chat-wrapper {
-  padding: 1rem !important;
-  height: 20rem;
-  overflow-y: scroll;
-  overflow-x: hidden;
-}
-</style>

@@ -1,6 +1,6 @@
 <template>
   <v-container class="ps-0 pe-0">
-    <v-card elevation="3" height="30rem">
+    <v-card elevation="3" :height="$device.isMobile ? '50rem' : '30rem'">
       <v-card-title>
         <div class="d-flex flex-row justify-space-between">
           <span>Ruang chat : Admin</span>
@@ -59,6 +59,7 @@
 </template>
 
 <script lang="ts" setup>
+const { isMobile } = useDevice();
 const { sendMessage, uploadFile, uploading } = useMessage();
 const { isAdmin } = useAuth();
 
@@ -120,12 +121,3 @@ async function sendChat() {
   }
 }
 </script>
-
-<style lang="scss">
-.chat-wrapper {
-  padding: 1rem !important;
-  height: 20rem;
-  overflow-y: scroll;
-  overflow-x: hidden;
-}
-</style>

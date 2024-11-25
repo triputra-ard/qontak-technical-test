@@ -44,7 +44,7 @@ export default defineNuxtConfig({
   ],
   css: ["@/styles/scss/main.scss", "@mdi/font/css/materialdesignicons.min.css"],
 
-  modules: ["@pinia/nuxt", "pinia-plugin-persistedstate/nuxt"],
+  modules: ["@pinia/nuxt", "pinia-plugin-persistedstate/nuxt", "@nuxtjs/device"],
   plugins: ["@/plugins/vuetify.client.ts", "@/plugins/v-toast.client.ts"],
   vite: {
     css: {
