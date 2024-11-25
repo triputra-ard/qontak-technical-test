@@ -1,11 +1,12 @@
 <template>
-  <div class="file-preview">
+  <div :class="classValidator">
     <div v-if="isImage" class="image-preview">
       <v-img
         :src="url"
         :max-height="200"
         :max-width="300"
         contain
+        alt="Image chat preview"
         @click="openFullSize"
       />
     </div>
@@ -32,6 +33,11 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  class: String,
+});
+
+const classValidator = computed(() => {
+  return cM("file-preview", props.class);
 });
 
 const isImage = computed(() => {

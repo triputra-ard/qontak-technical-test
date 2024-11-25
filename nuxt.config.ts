@@ -2,6 +2,7 @@ import { createServer } from "http";
 import websocketServer from "./server/websocket.cjs";
 
 export default defineNuxtConfig({
+  ssr: false,
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
   app: {
