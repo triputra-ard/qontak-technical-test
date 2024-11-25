@@ -1,4 +1,8 @@
+import { createServer } from "http";
+import websocketServer from "./server/websocket.cjs";
+
 export default defineNuxtConfig({
+  ssr: false,
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
   app: {
@@ -40,7 +44,7 @@ export default defineNuxtConfig({
   ],
   css: ["@/styles/scss/main.scss", "@mdi/font/css/materialdesignicons.min.css"],
 
-  modules: ["@pinia/nuxt", "pinia-plugin-persistedstate/nuxt"],
+  modules: ["@pinia/nuxt", "pinia-plugin-persistedstate/nuxt", "@nuxtjs/device"],
   plugins: ["@/plugins/vuetify.client.ts", "@/plugins/v-toast.client.ts"],
   vite: {
     css: {
@@ -68,10 +72,22 @@ export default defineNuxtConfig({
       "data",
     ],
   },
+  piniaPluginPersistedstate: {
+    key: "qontak_%id_persisted",
+  },
   runtimeConfig: {
     server: {},
     public: {
       socketUrl: process.env.SOCKET_URL || "http://localhost:3001",
+    },
+  },
+  hooks: {
+    listen: (nuxtServer) => {
+      const httpServer = createServer(nuxtServer);
+      websocketServer(httpServer);
+      httpServer.listen(3001, () => {
+        console.log("Server running on http://localhost:3001");
+      });
     },
   },
 });

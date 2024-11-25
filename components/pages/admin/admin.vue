@@ -1,21 +1,16 @@
 <template>
-  <v-container>
+  <v-container class="ps-0 pe-0">
     <v-card elevation="3" :height="$device.isMobile ? '50rem' : '30rem'">
       <v-card-title>
         <div class="d-flex flex-row justify-space-between">
-          <span
-            >Ruang chat
-            <template v-if="messageStore.underChatWithAdmin">
-              <v-chip color="green-darken-3">Admin online</v-chip>
-            </template>
-          </span>
+          <span>Ruang chat : Admin</span>
           <span class="fw-jakarta-bold"
             >Halo, {{ authStore.getUser.username }}</span
           >
-        </div></v-card-title
-      >
+        </div>
+      </v-card-title>
       <v-card-text class="chat-wrapper">
-        <template v-for="messageItem in messageStore.getMessages">
+        <template v-for="messageItem in filteredChat">
           <message-chip :message="messageItem"></message-chip>
         </template>
       </v-card-text>
@@ -66,9 +61,23 @@
 <script lang="ts" setup>
 const { isMobile } = useDevice();
 const { sendMessage, uploadFile, uploading } = useMessage();
+const { isAdmin } = useAuth();
 
 const messageStore = messageData();
 const authStore = authData();
+
+const filteredChat = computed(() => {
+  if (isAdmin && messageStore.currentChat) {
+    return messageStore.getMessages.filter(
+      (message) =>
+        message.userId === messageStore.currentChat.userId ||
+        message.userId === authStore.getUser.id ||
+        (message.userId === messageStore.currentChat.userId &&
+          message.userId === authStore.getUser.id)
+    );
+  }
+  return messageStore.getMessages;
+});
 
 const fileInput: any = useTemplateRef("file-input");
 
