@@ -55,3 +55,11 @@ Start the server
 ```bash
   npm run dev
 ```
+
+## Preview
+
+General user
+<img src="./public/screenshoot/user_chat.png"/>
+
+Admin user
+<img src="./public/screenshoot/admin_chat.png"/>
