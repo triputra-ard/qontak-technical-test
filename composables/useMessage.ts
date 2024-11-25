@@ -111,27 +111,6 @@ export default function () {
     }
   };
 
-  onMounted(() => {
-    $socket.on("disconnect", () => {
-      console.log("Disconnected");
-    });
-    $socket.on("message", (message) => {
-      addMessage(message);
-    });
-    $socket.on("admin-request", (request) => {
-      if (isAdmin.value) {
-        addMessage({
-          id: Date.now(),
-          content: `User ${request.username} requests admin support`,
-          userId: "system",
-          username: "System",
-          timestamp: new Date().toISOString(),
-          requestingUserId: request.userId,
-        });
-      }
-    });
-  });
-
   const uploadFile = async (file) => {
     try {
       uploading.value = true;
@@ -151,6 +130,27 @@ export default function () {
       throw error;
     }
   };
+
+  onMounted(() => {
+    $socket.off("message");
+    $socket.on("message", (message) => {
+      addMessage(message);
+    });
+
+    $socket.off("admin-request");
+    $socket.on("admin-request", (request) => {
+      if (isAdmin.value) {
+        addMessage({
+          id: Date.now(),
+          content: `User ${request.username} requests admin support`,
+          userId: "system",
+          username: "System",
+          timestamp: new Date().toISOString(),
+          requestingUserId: request.userId,
+        });
+      }
+    });
+  });
 
   return {
     sendMessage,
